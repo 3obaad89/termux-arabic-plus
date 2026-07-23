@@ -5,14 +5,89 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    android:background="@color/background_dark">
 
+    <!-- ════════════════════════════════════ -->
+    <!-- TOP TOOLBAR — Material 3             -->
+    <!-- ════════════════════════════════════ -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar_termux"
+        style="@style/TermuxToolbar"
+        android:theme="@style/ThemeOverlay.Material3.Dark.ActionBar"
+        app:titleTextColor="@color/accent_green"
+        app:subtitleTextColor="@color/text_secondary"
+        app:navigationIcon="@null"
+        app:title="@string/application_name">
+
+        <!-- Right-side toolbar items -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginEnd="4dp">
+
+            <TextView
+                android:id="@+id/toolbar_status_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🐉"
+                android:textSize="16sp"
+                android:gravity="center"
+                android:layout_marginEnd="8dp" />
+
+            <ImageButton
+                android:id="@+id/toolbar_new_session_button"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:src="@drawable/ic_new_session"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:scaleType="centerInside"
+                android:contentDescription="@string/action_new_session"
+                app:tint="@color/text_secondary" />
+
+            <ImageButton
+                android:id="@+id/toolbar_settings_button"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:src="@drawable/ic_settings"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:scaleType="centerInside"
+                android:contentDescription="@string/action_open_settings"
+                app:tint="@color/text_secondary" />
+
+        </LinearLayout>
+    </com.google.android.material.appbar.MaterialToolbar>
+
+    <!-- ════════════════════════════════════ -->
+    <!-- SESSION TABS                         -->
+    <!-- ════════════════════════════════════ -->
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/session_tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:background="@color/background_secondary"
+        app:tabIndicatorColor="@color/accent_green"
+        app:tabIndicatorHeight="2dp"
+        app:tabSelectedTextColor="@color/accent_green"
+        app:tabTextColor="@color/text_muted"
+        app:tabMode="scrollable"
+        app:tabMinWidth="72dp"
+        app:tabMaxWidth="160dp"
+        app:tabBackground="@color/background_secondary"
+        app:tabRippleColor="@color/accent_green"
+        android:elevation="2dp" />
+
+    <!-- ════════════════════════════════════ -->
+    <!-- MAIN CONTENT — Terminal + Drawer     -->
+    <!-- ════════════════════════════════════ -->
     <RelativeLayout
         android:id="@+id/activity_termux_root_relative_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:layout_marginHorizontal="3dp"
+        android:layout_marginHorizontal="0dp"
         android:layout_marginVertical="0dp"
         android:orientation="vertical">
 
@@ -35,7 +110,7 @@
 
             <LinearLayout
                 android:id="@+id/left_drawer"
-                android:layout_width="240dp"
+                android:layout_width="260dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="start"
                 android:choiceMode="singleChoice"
@@ -43,52 +118,97 @@
                 android:dividerHeight="0dp"
                 android:descendantFocusability="blocksDescendants"
                 android:orientation="vertical"
-                android:background="?attr/termuxActivityDrawerBackground">
+                android:background="@color/background_secondary">
 
+                <!-- Drawer Header -->
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_height="48dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="12dp"
+                    android:background="@color/background_secondary">
+
+                    <ImageView
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:src="@mipmap/ic_launcher"
+                        android:contentDescription="@null"
+                        android:layout_marginEnd="12dp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/application_name"
+                        android:textColor="@color/text_primary"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
                     <ImageButton
                         android:id="@+id/settings_button"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
                         android:src="@drawable/ic_settings"
-                        android:background="@null"
+                        android:background="?attr/selectableItemBackgroundBorderless"
                         android:contentDescription="@string/action_open_settings"
-                        app:tint="?attr/termuxActivityDrawerImageTint" />
+                        app:tint="@color/text_secondary" />
                 </LinearLayout>
+
+                <!-- Sessions list header -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    android:text="@string/sessions_header"
+                    android:textColor="@color/text_muted"
+                    android:textSize="11sp"
+                    android:textStyle="bold"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="16dp"
+                    android:textAllCaps="true" />
 
                 <ListView
                     android:id="@+id/terminal_sessions_list"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_gravity="top"
                     android:layout_weight="1"
                     android:choiceMode="singleChoice"
-                    android:longClickable="true" />
+                    android:longClickable="true"
+                    android:divider="@color/border_color"
+                    android:dividerHeight="1dp"
+                    android:background="@color/background_dark" />
 
                 <LinearLayout
                     style="?android:attr/buttonBarStyle"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/toggle_keyboard_button"
-                        style="?android:attr/buttonBarButtonStyle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/action_toggle_soft_keyboard" />
+                    android:layout_height="44dp"
+                    android:orientation="horizontal"
+                    android:background="@color/background_tertiary"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp">
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/new_session_button"
                         style="?android:attr/buttonBarButtonStyle"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:text="@string/action_new_session" />
+                        android:text="@string/action_new_session"
+                        android:textColor="@color/accent_green"
+                        android:backgroundTint="@color/background_tertiary"
+                        app:cornerRadius="6dp"
+                        android:layout_marginEnd="4dp" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/toggle_keyboard_button"
+                        style="?android:attr/buttonBarButtonStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="@string/action_toggle_soft_keyboard"
+                        android:textColor="@color/text_primary"
+                        android:backgroundTint="@color/background_tertiary"
+                        app:cornerRadius="6dp" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -99,11 +219,129 @@
             android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="37.5dp"
-            android:background="@color/black"
+            android:background="@color/background_tertiary"
             android:layout_alignParentBottom="true" />
 
     </RelativeLayout>
 
+    <!-- ════════════════════════════════════ -->
+    <!-- BOTTOM QUICK KEY BAR                 -->
+    <!-- ════════════════════════════════════ -->
+    <LinearLayout
+        android:id="@+id/bottom_key_bar"
+        style="@style/BottomKeyBar">
+
+        <!-- Ctrl -->
+        <LinearLayout
+            android:id="@+id/bottom_key_ctrl"
+            style="@style/BottomKeyBar.Button"
+            android:gravity="center">
+
+            <TextView
+                style="@style/BottomKeyBar.KeySymbol"
+                android:text="Ctrl"
+                android:textColor="@color/text_primary" />
+
+            <TextView
+                style="@style/BottomKeyBar.KeyLabel"
+                android:text="⌨" />
+        </LinearLayout>
+
+        <View style="@style/BottomKeyBar.Divider" />
+
+        <!-- Tab -->
+        <LinearLayout
+            android:id="@+id/bottom_key_tab"
+            style="@style/BottomKeyBar.Button"
+            android:gravity="center">
+
+            <TextView
+                style="@style/BottomKeyBar.KeySymbol"
+                android:text="⇥"
+                android:textColor="@color/accent_green" />
+
+            <TextView
+                style="@style/BottomKeyBar.KeyLabel"
+                android:text="@string/bottom_key_tab" />
+        </LinearLayout>
+
+        <View style="@style/BottomKeyBar.Divider" />
+
+        <!-- Del -->
+        <LinearLayout
+            android:id="@+id/bottom_key_del"
+            style="@style/BottomKeyBar.Button"
+            android:gravity="center">
+
+            <TextView
+                style="@style/BottomKeyBar.KeySymbol"
+                android:text="⌫"
+                android:textColor="@color/accent_red" />
+
+            <TextView
+                style="@style/BottomKeyBar.KeyLabel"
+                android:text="@string/bottom_key_del" />
+        </LinearLayout>
+
+        <View style="@style/BottomKeyBar.Divider" />
+
+        <!-- Cut -->
+        <LinearLayout
+            android:id="@+id/bottom_key_cut"
+            style="@style/BottomKeyBar.Button"
+            android:gravity="center">
+
+            <TextView
+                style="@style/BottomKeyBar.KeySymbol"
+                android:text="✂"
+                android:textColor="@color/accent_yellow" />
+
+            <TextView
+                style="@style/BottomKeyBar.KeyLabel"
+                android:text="@string/bottom_key_cut" />
+        </LinearLayout>
+
+        <View style="@style/BottomKeyBar.Divider" />
+
+        <!-- Paste -->
+        <LinearLayout
+            android:id="@+id/bottom_key_paste"
+            style="@style/BottomKeyBar.Button"
+            android:gravity="center">
+
+            <TextView
+                style="@style/BottomKeyBar.KeySymbol"
+                android:text="📋"
+                android:textColor="@color/accent_green" />
+
+            <TextView
+                style="@style/BottomKeyBar.KeyLabel"
+                android:text="@string/bottom_key_paste" />
+        </LinearLayout>
+
+        <View style="@style/BottomKeyBar.Divider" />
+
+        <!-- Esc -->
+        <LinearLayout
+            android:id="@+id/bottom_key_esc"
+            style="@style/BottomKeyBar.Button"
+            android:gravity="center">
+
+            <TextView
+                style="@style/BottomKeyBar.KeySymbol"
+                android:text="Esc"
+                android:textColor="@color/accent_pink" />
+
+            <TextView
+                style="@style/BottomKeyBar.KeyLabel"
+                android:text="@string/bottom_key_esc" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- ════════════════════════════════════ -->
+    <!-- BOTTOM SPACE — keyboard handling     -->
+    <!-- ════════════════════════════════════ -->
     <View
         android:id="@+id/activity_termux_bottom_space_view"
         android:layout_width="match_parent"

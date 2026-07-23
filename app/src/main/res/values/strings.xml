@@ -255,4 +255,14 @@
     <!-- Donate Preference -->
     <string name="donate_preference_title">Donate</string>
 
+    <!-- Bottom Quick Key Bar -->
+    <string name="sessions_header">Sessions</string>
+    <string name="action_search">Search</string>
+    <string name="bottom_key_ctrl">Ctrl</string>
+    <string name="bottom_key_tab">Tab</string>
+    <string name="bottom_key_del">Del</string>
+    <string name="bottom_key_cut">Cut</string>
+    <string name="bottom_key_paste">Paste</string>
+    <string name="bottom_key_esc">Esc</string>
+
 </resources>

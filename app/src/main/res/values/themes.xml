@@ -1,49 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--
-     https://material.io/develop/android/theming/dark
-    -->
 
-    <!-- TermuxApp Light DarkActionBar theme. -->
-    <style name="Theme.TermuxApp.Light.DarkActionBar" parent="Theme.BaseActivity.Light.DarkActionBar"/>
-    <!-- TermuxApp Light NoActionBar theme. -->
-    <style name="Theme.TermuxApp.Light.NoActionBar" parent="Theme.BaseActivity.Light.NoActionBar"/>
-
-    <!-- TermuxApp DayNight DarkActionBar theme. -->
-    <style name="Theme.TermuxApp.DayNight.DarkActionBar" parent="Theme.BaseActivity.DayNight.DarkActionBar"/>
-    <!-- TermuxApp DayNight NoActionBar theme. -->
-    <style name="Theme.TermuxApp.DayNight.NoActionBar" parent="Theme.BaseActivity.DayNight.NoActionBar"/>
-
-
-    <!-- TermuxActivity DayNight NoActionBar theme. -->
-    <style name="Theme.TermuxActivity.DayNight.NoActionBar" parent="Theme.TermuxApp.DayNight.NoActionBar">
-        <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/black</item>
-        <item name="colorPrimaryVariant">@color/black</item>
-
-        <item name="android:windowBackground">@color/black</item>
-
-        <!-- Avoid action mode toolbar pushing down terminal content when
-             selecting text on pre-6.0 (non-floating toolbar). -->
+    <!-- Dark theme — GitHub Dark inspired (always dark) -->
+    <style name="Theme.TermuxApp.Dark" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="colorPrimary">@color/background_dark</item>
+        <item name="colorOnPrimary">@color/text_primary</item>
+        <item name="colorPrimaryContainer">@color/background_secondary</item>
+        <item name="colorOnPrimaryContainer">@color/text_primary</item>
+        <item name="colorSecondary">@color/accent_green</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <item name="colorSecondaryContainer">@color/background_tertiary</item>
+        <item name="colorOnSecondaryContainer">@color/accent_green</item>
+        <item name="colorTertiary">@color/accent_pink</item>
+        <item name="colorOnTertiary">@color/black</item>
+        <item name="colorError">@color/accent_red</item>
+        <item name="colorOnError">@color/black</item>
+        <item name="android:colorBackground">@color/background_dark</item>
+        <item name="colorSurface">@color/background_dark</item>
+        <item name="colorOnSurface">@color/text_primary</item>
+        <item name="colorSurfaceVariant">@color/background_secondary</item>
+        <item name="colorOnSurfaceVariant">@color/text_secondary</item>
+        <item name="colorOutline">@color/border_color</item>
+        <item name="android:statusBarColor">@color/background_dark</item>
+        <item name="android:navigationBarColor">@color/background_dark</item>
+        <!-- Windows -->
+        <item name="android:windowBackground">@color/background_dark</item>
         <item name="android:windowActionModeOverlay">true</item>
-
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:windowAllowReturnTransitionOverlap">true</item>
+        <item name="android:windowAllowEnterTransitionOverlap">true</item>
+    </style>
 
-        <!-- https://developer.android.com/training/tv/start/start.html#transition-color -->
+    <!-- TermuxApp DarkActionBar -->
+    <style name="Theme.TermuxApp.Dark.DarkActionBar" parent="Theme.TermuxApp.Dark">
+        <item name="android:statusBarColor">@color/background_dark</item>
+    </style>
+
+    <!-- TermuxApp NoActionBar -->
+    <style name="Theme.TermuxApp.Dark.NoActionBar" parent="Theme.TermuxApp.Dark">
+    </style>
+
+    <!-- Keep DayNight variants but make them default to dark -->
+    <style name="Theme.TermuxApp.DayNight.DarkActionBar" parent="Theme.TermuxApp.Dark.DarkActionBar"/>
+    <style name="Theme.TermuxApp.DayNight.NoActionBar" parent="Theme.TermuxApp.Dark.NoActionBar"/>
+
+    <!-- TermuxActivity NoActionBar -->
+    <style name="Theme.TermuxActivity.DayNight.NoActionBar" parent="Theme.TermuxApp.DayNight.NoActionBar">
+        <item name="android:windowBackground">@color/background_dark</item>
+        <item name="android:windowActionModeOverlay">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
         <item name="android:windowAllowReturnTransitionOverlap">true</item>
         <item name="android:windowAllowEnterTransitionOverlap">true</item>
 
-        <!-- Left drawer. -->
-        <item name="buttonBarButtonStyle">@style/TermuxActivity.Drawer.ButtonBarStyle.Light</item>
-        <item name="termuxActivityDrawerBackground">@color/white</item>
-        <item name="termuxActivityDrawerImageTint">@color/black</item>
+        <!-- Left drawer -->
+        <item name="buttonBarButtonStyle">@style/TermuxActivity.Drawer.ButtonBarStyle.Dark</item>
+        <item name="termuxActivityDrawerBackground">@color/background_secondary</item>
+        <item name="termuxActivityDrawerImageTint">@color/text_primary</item>
 
-        <!-- Extra keys colors. -->
-        <item name="extraKeysButtonTextColor">@color/white</item>
-        <item name="extraKeysButtonActiveTextColor">@color/red_400</item>
-        <item name="extraKeysButtonBackgroundColor">@color/black</item>
-        <item name="extraKeysButtonActiveBackgroundColor">@color/grey_500</item>
+        <!-- Extra keys colors -->
+        <item name="extraKeysButtonTextColor">@color/text_primary</item>
+        <item name="extraKeysButtonActiveTextColor">@color/accent_green</item>
+        <item name="extraKeysButtonBackgroundColor">@color/background_tertiary</item>
+        <item name="extraKeysButtonActiveBackgroundColor">@color/accent_green</item>
     </style>
+
+    <!-- Night theme alias for compatibility -->
+    <style name="Theme.TermuxApp" parent="Theme.TermuxApp.DayNight.NoActionBar"/>
 
 </resources>

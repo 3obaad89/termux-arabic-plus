@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE resources [
+    <!ENTITY TERMUX_PACKAGE_NAME "com.termux">
+    <!ENTITY TERMUX_APP_NAME "Termux">
+    <!ENTITY TERMUX_API_APP_NAME "Termux:API">
+    <!ENTITY TERMUX_BOOT_APP_NAME "Termux:Boot">
+    <!ENTITY TERMUX_FLOAT_APP_NAME "Termux:Float">
+    <!ENTITY TERMUX_STYLING_APP_NAME "Termux:Styling">
+    <!ENTITY TERMUX_TASKER_APP_NAME "Termux:Tasker">
+    <!ENTITY TERMUX_WIDGET_APP_NAME "Termux:Widget">
+    ]>
+
+<resources>
+
+    <!-- اسم التطبيق -->
+    <string name="application_name">&TERMUX_APP_NAME;</string>
+    <string name="shared_user_label">&TERMUX_APP_NAME;</string>
+
+    <!-- صلاحية RUN_COMMAND -->
+    <string name="permission_run_command_label">تشغيل أوامر في بيئة &TERMUX_APP_NAME;</string>
+    <string name="permission_run_command_description">تنفيذ أوامر داخل بيئة &TERMUX_APP_NAME; والوصول للملفات</string>
+
+    <!-- تثبيت البوتستراب -->
+    <string name="bootstrap_installer_body">جاري تثبيت الحزم الأساسية…</string>
+    <string name="bootstrap_error_title">تعذر تثبيت الحزم الأساسية</string>
+    <string name="bootstrap_error_body">&TERMUX_APP_NAME; لم يتمكن من تثبيت الحزم الأساسية.</string>
+    <string name="bootstrap_error_abort">إلغاء</string>
+    <string name="bootstrap_error_try_again">إعادة المحاولة</string>
+    <string name="bootstrap_error_not_primary_user_message">&TERMUX_APP_NAME; يمكن تشغيله فقط بواسطة المستخدم الأساسي.</string>
+    <string name="bootstrap_error_installed_on_portable_sd">&TERMUX_APP_NAME; لا يمكن تثبيته على بطاقة SD خارجية.</string>
+
+    <!-- القائمة الجانبية والاختصارات -->
+    <string name="action_new_session">جلسة جديدة</string>
+    <string name="action_new_session_failsafe">وضع آمن</string>
+    <string name="title_max_terminals_reached">تم الوصول للحد الأقصى</string>
+    <string name="msg_max_terminals_reached">أغلق بعض الجلسات قبل فتح جلسات جديدة.</string>
+
+    <string name="title_rename_session">تسمية الجلسة</string>
+    <string name="action_rename_session_confirm">تعيين</string>
+    <string name="title_create_named_session">جلسة جديدة باسم</string>
+    <string name="action_create_named_session_confirm">إنشاء</string>
+
+    <string name="action_toggle_soft_keyboard">لوحة المفاتيح</string>
+
+    <string name="msg_enabling_terminal_toolbar">تفعيل شريط الأدوات</string>
+    <string name="msg_disabling_terminal_toolbar">تعطيل شريط الأدوات</string>
+
+    <!-- قائمة منبثقة -->
+    <string name="action_select_url">تحديد رابط</string>
+    <string name="title_select_url_dialog">اضغط لنسخ الرابط أو اضغط مطولاً للفتح</string>
+    <string name="title_select_url_none_found">لم يتم العثور على روابط في التيرمينال.</string>
+    <string name="msg_select_url_copied_to_clipboard">تم نسخ الرابط</string>
+
+    <string name="action_share_transcript">مشاركة السجل</string>
+    <string name="title_share_transcript">سجل التيرمينال</string>
+    <string name="title_share_transcript_with">إرسال السجل إلى:</string>
+
+    <string name="action_share_selected_text">مشاركة النص المحدد</string>
+    <string name="title_share_selected_text">نص التيرمينال</string>
+    <string name="title_share_selected_text_with">إرسال النص المحدد إلى:</string>
+
+    <string name="action_autofill_username">إكمال اسم المستخدم</string>
+    <string name="action_autofill_password">إكمال كلمة المرور</string>
+
+    <string name="action_reset_terminal">إعادة تعيين</string>
+    <string name="msg_terminal_reset">تم إعادة تعيين التيرمينال</string>
+
+    <string name="action_kill_process">إنهاء العملية (%d)</string>
+    <string name="title_confirm_kill_process">هل تريد إنهاء هذه الجلسة؟</string>
+
+    <string name="action_style_terminal">تنسيق</string>
+    <string name="action_toggle_keep_screen_on">إبقاء الشاشة مضاءة</string>
+    <string name="action_open_help">مساعدة</string>
+    <string name="action_open_settings">الإعدادات</string>
+
+    <string name="action_report_issue">الإبلاغ عن مشكلة</string>
+    <string name="msg_generating_report">جاري إنشاء التقرير</string>
+    <string name="msg_add_termux_debug_info">إضافة معلومات التصحيح للتقرير؟</string>
+
+    <string name="error_styling_not_installed">&TERMUX_STYLING_APP_NAME; غير مثبت.</string>
+    <string name="action_styling_install">تثبيت</string>
+
+    <!-- الإشعارات -->
+    <string name="notification_action_exit">خروج</string>
+    <string name="notification_action_wake_lock">قفل الشاشة</string>
+    <string name="notification_action_wake_unlock">فتح الشاشة</string>
+
+    <!-- الخدمة -->
+    <string name="error_display_over_other_apps_permission_not_granted_to_start_terminal">&TERMUX_APP_NAME; يحتاج صلاحية العرض فوق التطبيقات الأخرى.</string>
+    <string name="error_termux_service_invalid_execution_command_runner">أمر تشغيل غير صالح: %1$s</string>
+    <string name="error_termux_service_unsupported_execution_command_runner">أمر تشغيل غير مدعوم: %1$s</string>
+    <string name="error_termux_service_unsupported_execution_command_shell_create_mode">وضع إنشاء شل غير مدعوم</string>
+    <string name="error_termux_service_execution_command_shell_name_unset">لم يتم تعيين اسم الشل</string>
+
+    <!-- RunCommandService -->
+    <string name="error_run_command_service_invalid_intent_action">إجراء Intent غير صالح: %1$s</string>
+    <string name="error_run_command_service_invalid_execution_command_runner">أمر تشغيل غير صالح لـ RunCommandService: %1$s</string>
+    <string name="error_run_command_service_mandatory_extra_missing">بيانات إضافية إلزامية مفقودة: %1$s</string>
+    <string name="error_run_command_service_api_help">قم بزيارة %1$s لمزيد من المعلومات</string>
+
+    <!-- استقبال الملفات -->
+    <string name="title_file_received">حفظ الملف في ~/downloads/</string>
+    <string name="action_file_received_edit">تعديل</string>
+    <string name="action_file_received_open_directory">فتح المجلد</string>
+
+    <!-- متنوع -->
+    <string name="error_termux_service_start_failed_general">فشل بدء الخدمة.</string>
+    <string name="error_termux_service_start_failed_bg">فشل بدء الخدمة في الخلفية.</string>
+
+    <!-- الإعدادات -->
+    <string name="title_activity_termux_settings">إعدادات &TERMUX_APP_NAME;</string>
+
+    <!-- تفضيلات Termux -->
+    <string name="termux_preferences_title">&TERMUX_APP_NAME;</string>
+    <string name="termux_preferences_summary">إعدادات تطبيق &TERMUX_APP_NAME;</string>
+
+    <string name="termux_debugging_preferences_title">التصحيح</string>
+    <string name="termux_debugging_preferences_summary">إعدادات التصحيح</string>
+
+    <string name="termux_logging_header">السجلات</string>
+    <string name="termux_log_level_title">مستوى التسجيل</string>
+
+    <string name="termux_terminal_view_key_logging_enabled_title">تسجيل مفاتيح العرض</string>
+    <string name="termux_terminal_view_key_logging_enabled_off">لن يتم تسجيل المفاتيح. (افتراضي)</string>
+    <string name="termux_terminal_view_key_logging_enabled_on">تسجيل المفاتيح في logcat. قد يؤثر على الأداء.</string>
+
+    <string name="termux_plugin_error_notifications_enabled_title">إشعارات أخطاء الإضافات</string>
+    <string name="termux_plugin_error_notifications_enabled_off">تعطيل الإشعارات.</string>
+    <string name="termux_plugin_error_notifications_enabled_on">إظهار الإشعارات. (افتراضي)</string>
+
+    <string name="termux_crash_report_notifications_enabled_title">إشعارات تقارير الأعطال</string>
+    <string name="termux_crash_report_notifications_enabled_off">تعطيل.</string>
+    <string name="termux_crash_report_notifications_enabled_on">إظهار الإشعارات. (افتراضي)</string>
+
+    <string name="termux_terminal_io_preferences_title">الإدخال/الإخراج</string>
+    <string name="termux_terminal_io_preferences_summary">إعدادات الإدخال/الإخراج</string>
+
+    <string name="termux_keyboard_header">لوحة المفاتيح</string>
+
+    <string name="termux_soft_keyboard_enabled_title">تفعيل لوحة المفاتيح</string>
+    <string name="termux_soft_keyboard_enabled_off">معطل.</string>
+    <string name="termux_soft_keyboard_enabled_on">مفعل. (افتراضي)</string>
+
+    <string name="termux_soft_keyboard_enabled_only_if_no_hardware_title">فقط في حالة عدم وجود لوحة مفاتيح خارجية</string>
+    <string name="termux_soft_keyboard_enabled_only_if_no_hardware_off">تفعيل حتى مع وجود لوحة خارجية. (افتراضي)</string>
+    <string name="termux_soft_keyboard_enabled_only_if_no_hardware_on">تفعيل فقط بدون لوحة خارجية.</string>
+
+    <string name="termux_terminal_view_preferences_title">عرض التيرمينال</string>
+    <string name="termux_terminal_view_preferences_summary">إعدادات عرض التيرمينال</string>
+
+    <string name="termux_terminal_view_view_header">العرض</string>
+
+    <string name="termux_terminal_view_terminal_margin_adjustment_title">ضبط هوامش التيرمينال</string>
+    <string name="termux_terminal_view_terminal_margin_adjustment_off">معطل.</string>
+    <string name="termux_terminal_view_terminal_margin_adjustment_on">مفعل. يساعد في منع تغطية لوحة المفاتيح للتيرمينال.</string>
+
+    <!-- الإضافات -->
+    <string name="termux_api_preferences_title">&TERMUX_API_APP_NAME;</string>
+    <string name="termux_api_preferences_summary">إعدادات &TERMUX_API_APP_NAME;</string>
+
+    <string name="termux_float_preferences_title">&TERMUX_FLOAT_APP_NAME;</string>
+    <string name="termux_float_preferences_summary">إعدادات &TERMUX_FLOAT_APP_NAME;</string>
+
+    <string name="termux_tasker_preferences_title">&TERMUX_TASKER_APP_NAME;</string>
+    <string name="termux_tasker_preferences_summary">إعدادات &TERMUX_TASKER_APP_NAME;</string>
+
+    <string name="termux_widget_preferences_title">&TERMUX_WIDGET_APP_NAME;</string>
+    <string name="termux_widget_preferences_summary">إعدادات &TERMUX_WIDGET_APP_NAME;</string>
+
+    <!-- معلومات -->
+    <string name="about_preference_title">حول</string>
+    <string name="whats_new_preference_title">ما الجديد</string>
+
+    <!-- ما الجديد -->
+    <string name="whats_new_title">ما الجديد في هذا الإصدار</string>
+    <string name="whats_new_header">تطوير واجهة العرض العربية</string>
+    <string name="whats_new_intro">هذا التحديث يقدم تحسينات كبيرة:</string>
+    <string name="whats_new_feature_1">دعم كامل للغة العربية والنصوص المختلطة</string>
+    <string name="whats_new_feature_2">تشكيل الحروف العربية بمحرك HarfBuzz</string>
+    <string name="whats_new_feature_3">معالجة صحيحة للأوامر المختلطة RTL/LTR</string>
+    <string name="whats_new_feature_4">عرض مستقر بدون تشويش</string>
+    <string name="whats_new_feature_5">عزل المؤشر (بدون وميض)</string>
+    <string name="whats_new_feature_6">نظام تخزين مؤقت للأداء</string>
+    <string name="whats_new_developer_section">المطور</string>
+    <string name="whats_new_developed_by">تم التطوير بواسطة:</string>
+    <string name="whats_new_developer_name">Mohammed-Almashahery</string>
+    <string name="whats_new_telegram_label">تليجرام:</string>
+    <string name="whats_new_telegram_handle">@Kim0_07</string>
+    <string name="whats_new_dismiss">تجاهل</string>
+
+    <!-- تبرع -->
+    <string name="donate_preference_title">تبرع</string>
+
+    <!-- شريط المفاتيح السفلي -->
+    <string name="sessions_header">الجلسات</string>
+    <string name="action_search">بحث</string>
+    <string name="bottom_key_ctrl">Ctrl</string>
+    <string name="bottom_key_tab">Tab</string>
+    <string name="bottom_key_del">حذف</string>
+    <string name="bottom_key_cut">قص</string>
+    <string name="bottom_key_paste">لصق</string>
+    <string name="bottom_key_esc">خروج</string>
+
+</resources>

@@ -1,6 +1,7 @@
 package com.termux.app;
 
 import android.annotation.SuppressLint;
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
@@ -9,7 +10,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.view.ContextMenu;
@@ -251,6 +254,9 @@ public final class TermuxActivity extends AppCompatActivity implements ServiceCo
         setNewSessionButtonView();
 
         setToggleKeyboardView();
+
+        // Request essential runtime permissions (notifications, alarms, etc.)
+        requestEssentialPermissions();
 
         registerForContextMenu(mTerminalView);
 
@@ -767,6 +773,9 @@ public final class TermuxActivity extends AppCompatActivity implements ServiceCo
 
 
 
+    /** Notification permission request code (Android 13+). */
+    private static final int REQUEST_POST_NOTIFICATIONS = 1001;
+
     /**
      * For processes to access primary external storage (/sdcard, /storage/emulated/0, ~/storage/shared),
      * termux needs to be granted legacy WRITE_EXTERNAL_STORAGE or MANAGE_EXTERNAL_STORAGE permissions
@@ -796,6 +805,22 @@ public final class TermuxActivity extends AppCompatActivity implements ServiceCo
         }.start();
     }
 
+    /**
+     * Request critical runtime permissions needed on modern Android.
+     * - POST_NOTIFICATIONS (Android 13+): Required for foreground service notification
+     */
+    public void requestEssentialPermissions() {
+        // Android 13+ — POST_NOTIFICATIONS for foreground service
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS)
+                    != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(
+                    new String[]{Manifest.permission.POST_NOTIFICATIONS},
+                    REQUEST_POST_NOTIFICATIONS);
+            }
+        }
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -811,6 +836,19 @@ public final class TermuxActivity extends AppCompatActivity implements ServiceCo
         Logger.logVerbose(LOG_TAG, "onRequestPermissionsResult: requestCode: " + requestCode + ", permissions: "  + Arrays.toString(permissions) + ", grantResults: "  + Arrays.toString(grantResults));
         if (requestCode == PermissionUtils.REQUEST_GRANT_STORAGE_PERMISSION) {
             requestStoragePermission(true);
+        } else if (requestCode == REQUEST_POST_NOTIFICATIONS) {
+            for (int i = 0; i < permissions.length; i++) {
+                if (Manifest.permission.POST_NOTIFICATIONS.equals(permissions[i])) {
+                    if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {
+                        Logger.logInfo(LOG_TAG, "POST_NOTIFICATIONS permission granted");
+                    } else {
+                        Logger.logInfo(LOG_TAG, "POST_NOTIFICATIONS permission denied");
+                        Logger.showToast(this,
+                            "Notifications permission needed for background terminal sessions. Please grant in Settings.",
+                            true);
+                    }
+                }
+            }
         }
     }
 

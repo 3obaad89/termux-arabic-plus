@@ -1,3 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- GitHub Dark / Dracula inspired palette -->
+    <color name="background_dark">#0d1117</color>
+    <color name="background_secondary">#161b22</color>
+    <color name="background_tertiary">#21262d</color>
+    <color name="surface_dark">#0d1117</color>
+    <color name="surface_secondary">#161b22</color>
+    <color name="border_color">#30363d</color>
+
+    <!-- Accent colors -->
+    <color name="accent_green">#50fa7b</color>
+    <color name="accent_red">#ff6b6b</color>
+    <color name="accent_yellow">#ffd93d</color>
+    <color name="accent_pink">#ff79c6</color>
+    <color name="accent_cyan">#8be9fd</color>
+    <color name="accent_purple">#bd93f9</color>
+    <color name="accent_orange">#ffb86c</color>
+
+    <!-- Text colors -->
+    <color name="text_primary">#e6edf3</color>
+    <color name="text_secondary">#8b949e</color>
+    <color name="text_muted">#6e7681</color>
+
+    <!-- Base colors -->
+    <color name="black">#0d1117</color>
+    <color name="white">#e6edf3</color>
+    <color name="transparent">#00000000</color>
+
+    <!-- Legacy color names for compatibility -->
+    <color name="red_400">#ff6b6b</color>
+    <color name="grey_500">#6e7681</color>
 </resources>
