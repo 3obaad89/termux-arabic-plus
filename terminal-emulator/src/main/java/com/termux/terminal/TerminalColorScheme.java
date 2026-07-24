@@ -45,7 +45,7 @@ public final class TerminalColorScheme {
             0xff080808, 0xff121212, 0xff1c1c1c, 0xff262626, 0xff303030, 0xff3a3a3a, 0xff444444, 0xff4e4e4e, 0xff585858, 0xff626262, 0xff6c6c6c, 0xff767676,
             0xff808080, 0xff8a8a8a, 0xff949494, 0xff9e9e9e, 0xffa8a8a8, 0xffb2b2b2, 0xffbcbcbc, 0xffc6c6c6, 0xffd0d0d0, 0xffdadada, 0xffe4e4e4, 0xffeeeeee,
         };
-        System.arraycopy(cube, 0, DEFAULT_COLORSCHEME, 16, cube.length);
+        System.arraycopy(cube, 16, DEFAULT_COLORSCHEME, 16, 240);
 
         // ── Step 2: Apply Dracula theme (background, foreground, cursor, 16 ANSI) ──
         TerminalTheme.applyTheme(DEFAULT_COLORSCHEME, TerminalTheme.getDefaultThemeIndex());
