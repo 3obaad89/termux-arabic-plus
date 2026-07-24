@@ -23,8 +23,27 @@
     <color name="text_muted">#6e7681</color>
 
     <!-- Base colors -->
-    <color name="black">#0d1117</color>
-    <color name="white">#e6edf3</color>
+    <color name="black">#ff000000</color>
+    <color name="white">#ffffffff</color>
+
+    <!-- ParrotTerminal colors -->
+    <color name="parrot_bg">#ff0d1117</color>
+    <color name="parrot_surface">#ff161b22</color>
+    <color name="parrot_border">#ff30363d</color>
+    <color name="parrot_text">#fff8f8f2</color>
+    <color name="parrot_text_dim">#ff8b949e</color>
+    <color name="parrot_green">#ff50fa7b</color>
+    <color name="parrot_red">#ffff5555</color>
+    <color name="parrot_pink">#ffff79c6</color>
+    <color name="parrot_purple">#ffbd93f9</color>
+    <color name="parrot_yellow">#fff1fa8c</color>
+    <color name="parrot_cyan">#ff8be9fd</color>
+    <color name="parrot_comment">#ff6272a4</color>
+    <color name="parrot_divider">#3350fa7b</color>
+    <color name="input_bg">#ff0d1117</color>
+    <color name="status_bar_bg">#ff0d1117</color>
+    <color name="toolbar_bg">#ff161b22</color>
+    <color name="window_bg">#ff0d1117</color>
     <color name="transparent">#00000000</color>
 
     <!-- Legacy color names for compatibility -->

@@ -2,7 +2,7 @@
 
 <!DOCTYPE resources [
     <!ENTITY TERMUX_PACKAGE_NAME "com.termux">
-    <!ENTITY TERMUX_APP_NAME "Termux">
+    <!ENTITY TERMUX_APP_NAME "Parrot Terminal">
     <!ENTITY TERMUX_API_APP_NAME "Termux:API">
     <!ENTITY TERMUX_BOOT_APP_NAME "Termux:Boot">
     <!ENTITY TERMUX_FLOAT_APP_NAME "Termux:Float">
@@ -259,6 +259,12 @@
     <string name="sessions_header">Sessions</string>
     <string name="action_search">Search</string>
     <string name="action_settings">Settings</string>
+
+    <!-- ParrotTerminal strings -->
+    <string name="app_name">Parrot Terminal</string>
+    <string name="settings">Settings</string>
+    <string name="close_session">Close Session</string>
+    <string name="change_theme">Change Theme</string>
     <string name="bottom_key_ctrl">Ctrl</string>
     <string name="bottom_key_tab">Tab</string>
     <string name="bottom_key_del">Del</string>

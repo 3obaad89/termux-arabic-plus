@@ -581,21 +581,22 @@ public final class TermuxActivity extends AppCompatActivity implements ServiceCo
 
 
     private void setSettingsButtonView() {
-        ImageButton settingsButton = findViewById(R.id.settings_button);
-        settingsButton.setOnClickListener(v -> {
-            ActivityUtils.startActivity(this, new Intent(this, SettingsActivity.class));
-        });
+        ImageButton settingsButton = findViewById(R.id.settings_btn);
+        if (settingsButton != null) {
+            settingsButton.setOnClickListener(v -> {
+                ActivityUtils.startActivity(this, new Intent(this, SettingsActivity.class));
+            });
+        }
     }
 
     private void setNewSessionButtonView() {
-        View newSessionButton = findViewById(R.id.new_session_button);
-        newSessionButton.setOnClickListener(v -> mTermuxTerminalSessionActivityClient.addNewSession(false, null));
-        newSessionButton.setOnLongClickListener(v -> {
-            TextInputDialogUtils.textInput(TermuxActivity.this, R.string.title_create_named_session, null,
-                R.string.action_create_named_session_confirm, text -> mTermuxTerminalSessionActivityClient.addNewSession(false, text),
-                R.string.action_new_session_failsafe, text -> mTermuxTerminalSessionActivityClient.addNewSession(true, text),
-                -1, null, null);
-            return true;
+        findViewById(R.id.close_session_btn).setOnClickListener(v -> {
+            if (mTermuxService != null) {
+                TerminalSession session = getCurrentSession();
+                if (session != null) {
+                    session.finishIfRunning();
+                }
+            }
         });
     }
 
@@ -611,43 +612,11 @@ public final class TermuxActivity extends AppCompatActivity implements ServiceCo
             mTerminalView.onKeyDown(KeyEvent.KEYCODE_TAB, new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_TAB));
         });
 
-        // ── Cut (material icon) - copy selected then delete ──
-        findViewById(R.id.btn_cut_material).setOnClickListener(v -> {
-            if (mTerminalView != null) {
-                String selected = mTerminalView.getSelectedText();
-                if (selected != null && !selected.isEmpty()) {
-                    ShareUtils.copyTextToClipboard(TermuxActivity.this, selected);
-                    mTerminalView.onKeyDown(KeyEvent.KEYCODE_DEL, new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL));
-                }
-            }
-        });
-
-        // ── Copy (material icon) - copy selected text ──
-        findViewById(R.id.btn_copy_material).setOnClickListener(v -> {
-            if (mTerminalView != null) {
-                String selected = mTerminalView.getSelectedText();
-                if (selected != null && !selected.isEmpty())
-                    ShareUtils.copyTextToClipboard(TermuxActivity.this, selected);
-            }
-        });
-
-        // ── Paste (material icon) - paste from clipboard ──
-        findViewById(R.id.btn_paste_material).setOnClickListener(v -> {
-            if (mTermuxTerminalSessionActivityClient != null)
-                mTermuxTerminalSessionActivityClient.onPasteTextFromClipboard(null);
-        });
-
-        // ── Select button: copy selected text or stop selection ──
-        findViewById(R.id.btn_select_material).setOnClickListener(v -> {
-            if (mTerminalView != null) {
-                if (mTerminalView.isSelectingText()) {
-                    String selected = mTerminalView.getSelectedText();
-                    if (selected != null && !selected.isEmpty())
-                        ShareUtils.copyTextToClipboard(TermuxActivity.this, selected);
-                    mTerminalView.stopTextSelectionMode();
-                }
-            }
-        });
+        // ── Arrow keys: send escape sequences ──
+        findViewById(R.id.arrow_left).setOnClickListener(v -> sendKeyCodes(27, 91, 68));  // ESC [ D
+        findViewById(R.id.arrow_up).setOnClickListener(v -> sendKeyCodes(27, 91, 65));    // ESC [ A
+        findViewById(R.id.arrow_down).setOnClickListener(v -> sendKeyCodes(27, 91, 66));  // ESC [ B
+        findViewById(R.id.arrow_right).setOnClickListener(v -> sendKeyCodes(27, 91, 67)); // ESC [ C
 
         // ── Del button ──
         findViewById(R.id.btn_del).setOnClickListener(v -> {
@@ -675,15 +644,34 @@ public final class TermuxActivity extends AppCompatActivity implements ServiceCo
         findViewById(R.id.btn_esc).setOnClickListener(v -> {
             mTerminalView.onKeyDown(KeyEvent.KEYCODE_ESCAPE, new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ESCAPE));
         });
+
+        // ── Theme/Sound button ──
+        findViewById(R.id.theme_sound_btn).setOnClickListener(v -> {
+            ActivityUtils.startActivity(this, new Intent(this, SettingsActivity.class));
+        });
+    }
+
+    private void sendKeyCodes(int... codes) {
+        if (mTerminalView == null) return;
+        if (mTermuxService != null && mTermuxService.getTermuxSessionsSize() > 0) {
+            TerminalSession session = mTermuxService.getTermuxSessions().get(mTermuxService.getTermuxSessionsSize() - 1).getTerminalSession();
+            if (session != null) {
+                byte[] data = new byte[codes.length];
+                for (int i = 0; i < codes.length; i++) data[i] = (byte) codes[i];
+                session.write(data, 0, data.length);
+            }
+        }
     }
 
     private void setToggleKeyboardView() {
-        findViewById(R.id.toggle_keyboard_button).setOnClickListener(v -> {
+        View toggleBtn = findViewById(R.id.toggle_keyboard_button);
+        if (toggleBtn == null) return;
+        toggleBtn.setOnClickListener(v -> {
             mTermuxTerminalViewClient.onToggleSoftKeyboardRequest();
             getDrawer().closeDrawers();
         });
 
-        findViewById(R.id.toggle_keyboard_button).setOnLongClickListener(v -> {
+        toggleBtn.setOnLongClickListener(v -> {
             toggleTerminalToolbar();
             return true;
         });

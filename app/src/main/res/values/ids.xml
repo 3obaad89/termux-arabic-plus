@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="toggle_keyboard_button" type="id" />
+    <item name="toolbar_termux" type="id" />
+    <item name="session_tab_layout" type="id" />
+</resources>
