@@ -201,4 +201,17 @@
     <string name="bottom_key_paste">لصق</string>
     <string name="bottom_key_esc">خروج</string>
 
+    <!-- UI Labels matching ParrotTerminal -->
+    <string name="action_settings">الإعدادات</string>
+    <string name="default_session_name">localhost</string>
+    <string name="disconnect_label">قطع الاتصال</string>
+    <string name="key_ctrl">Ctrl</string>
+    <string name="key_tab">Tab</string>
+    <string name="key_cut">قص</string>
+    <string name="key_copy">نسخ</string>
+    <string name="key_paste">لصق</string>
+    <string name="key_select">تحديد</string>
+    <string name="key_del">حذف</string>
+    <string name="key_esc">خروج</string>
+
 </resources>

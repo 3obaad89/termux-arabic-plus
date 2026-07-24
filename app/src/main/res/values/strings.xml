@@ -258,11 +258,24 @@
     <!-- Bottom Quick Key Bar -->
     <string name="sessions_header">Sessions</string>
     <string name="action_search">Search</string>
+    <string name="action_settings">Settings</string>
     <string name="bottom_key_ctrl">Ctrl</string>
     <string name="bottom_key_tab">Tab</string>
     <string name="bottom_key_del">Del</string>
     <string name="bottom_key_cut">Cut</string>
     <string name="bottom_key_paste">Paste</string>
     <string name="bottom_key_esc">Esc</string>
+
+    <!-- UI Labels matching ParrotTerminal -->
+    <string name="default_session_name">localhost</string>
+    <string name="disconnect_label">Disconnect</string>
+    <string name="key_ctrl">Ctrl</string>
+    <string name="key_tab">Tab</string>
+    <string name="key_cut">Cut</string>
+    <string name="key_copy">Copy</string>
+    <string name="key_paste">Paste</string>
+    <string name="key_select">Select</string>
+    <string name="key_del">Del</string>
+    <string name="key_esc">Esc</string>
 
 </resources>

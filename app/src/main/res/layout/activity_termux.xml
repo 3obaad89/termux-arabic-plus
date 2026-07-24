@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <com.termux.app.terminal.TermuxActivityRootView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -5,347 +6,436 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:fitsSystemWindows="true"
-    android:background="@color/background_dark">
+    android:background="#ff0d1117"
+    android:fitsSystemWindows="false">
 
-    <!-- ════════════════════════════════════ -->
-    <!-- TOP TOOLBAR — Material 3             -->
-    <!-- ════════════════════════════════════ -->
+    <!-- 🔷 Toolbar — URL bar style (36dp) like ParrotTerminal -->
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar_termux"
-        style="@style/TermuxToolbar"
-        android:theme="@style/ThemeOverlay.Material3.Dark.ActionBar"
-        app:titleTextColor="@color/accent_green"
-        app:subtitleTextColor="@color/text_secondary"
-        app:navigationIcon="@null"
-        app:title="@string/application_name">
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:background="#ff0d1117"
+        android:paddingStart="4dp"
+        android:paddingEnd="4dp">
 
-        <!-- Right-side toolbar items -->
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:layout_marginEnd="4dp">
+            android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/toolbar_status_text"
+            <!-- Left: Terminal name + dragon emoji -->
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="🐉"
-                android:textSize="16sp"
-                android:gravity="center"
-                android:layout_marginEnd="8dp" />
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
+                <TextView
+                    android:id="@+id/active_session_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:textColor="#ff50fa7b"
+                    android:gravity="center_vertical"
+                    android:text="@string/default_session_name" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="13sp"
+                    android:gravity="center_vertical"
+                    android:text="🐉"
+                    android:layout_marginStart="4dp" />
+            </LinearLayout>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <!-- Settings button -->
             <ImageButton
-                android:id="@+id/toolbar_new_session_button"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:src="@drawable/ic_new_session"
+                android:id="@+id/settings_button"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:scaleType="centerInside"
-                android:contentDescription="@string/action_new_session"
-                app:tint="@color/text_secondary" />
-
-            <ImageButton
-                android:id="@+id/toolbar_settings_button"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
                 android:src="@drawable/ic_settings"
-                android:background="?attr/selectableItemBackgroundBorderless"
                 android:scaleType="centerInside"
-                android:contentDescription="@string/action_open_settings"
-                app:tint="@color/text_secondary" />
+                android:contentDescription="@string/action_settings"
+                android:layout_marginEnd="2dp" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <!-- Disconnect button (red) — same as ParrotTerminal -->
+            <TextView
+                android:id="@+id/disconnect_button"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:textColor="#ffff6b6b"
+                android:gravity="center"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:focusable="true"
+                android:clickable="true"
+                android:text="@string/disconnect_label"
+                android:contentDescription="@string/disconnect_label"
+                android:layout_marginEnd="24dp"
+                android:paddingHorizontal="10dp" />
+
+            <!-- New session button (rightmost) -->
+            <ImageButton
+                android:id="@+id/new_session_button"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_new_session"
+                android:scaleType="centerInside"
+                android:contentDescription="@string/action_new_session" />
+
+            <!-- Hidden keyboard toggle button (kept for code compatibility) -->
+            <ImageButton
+                android:id="@+id/toggle_keyboard_button"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:visibility="gone" />
 
         </LinearLayout>
     </com.google.android.material.appbar.MaterialToolbar>
 
-    <!-- ════════════════════════════════════ -->
-    <!-- SESSION TABS                         -->
-    <!-- ════════════════════════════════════ -->
+    <!-- 🔷 TabLayout — session tabs (26dp, green indicator) like ParrotTerminal -->
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/session_tab_layout"
         android:layout_width="match_parent"
-        android:layout_height="36dp"
-        android:background="@color/background_secondary"
-        app:tabIndicatorColor="@color/accent_green"
+        android:layout_height="26dp"
+        android:background="#ff0d1117"
+        android:elevation="1dp"
+        app:tabIndicatorColor="#ff50fa7b"
         app:tabIndicatorHeight="2dp"
-        app:tabSelectedTextColor="@color/accent_green"
-        app:tabTextColor="@color/text_muted"
-        app:tabMode="scrollable"
-        app:tabMinWidth="72dp"
-        app:tabMaxWidth="160dp"
-        app:tabBackground="@color/background_secondary"
-        app:tabRippleColor="@color/accent_green"
-        android:elevation="2dp" />
+        app:tabMaxWidth="90dp"
+        app:tabMinWidth="48dp"
+        app:tabMode="fixed"
+        app:tabPaddingEnd="4dp"
+        app:tabPaddingStart="4dp"
+        app:tabSelectedTextColor="#ff50fa7b"
+        app:tabTextColor="#ff8b949e" />
 
-    <!-- ════════════════════════════════════ -->
-    <!-- MAIN CONTENT — Terminal + Drawer     -->
-    <!-- ════════════════════════════════════ -->
-    <RelativeLayout
-        android:id="@+id/activity_termux_root_relative_layout"
+    <!-- 🔷 Main content area — wraps TerminalView + DrawerLayout -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:layout_marginHorizontal="0dp"
-        android:layout_marginVertical="0dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingHorizontal="4dp">
 
+        <!-- Terminal DrawerLayout (always visible) -->
         <androidx.drawerlayout.widget.DrawerLayout
             android:id="@+id/drawer_layout"
             android:layout_width="match_parent"
-            android:layout_alignParentTop="true"
-            android:layout_above="@+id/terminal_toolbar_view_pager"
-            android:layout_height="match_parent">
+            android:layout_height="0dp"
+            android:layout_weight="1">
 
             <com.termux.view.TerminalView
                 android:id="@+id/terminal_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:defaultFocusHighlightEnabled="false"
-                android:focusableInTouchMode="true"
-                android:scrollbarThumbVertical="@drawable/terminal_scroll_shape"
-                android:scrollbars="vertical"
-                tools:ignore="UnusedAttribute" />
+                android:defaultFocusHighlightEnabled="false" />
 
+            <!-- Session drawer -->
             <LinearLayout
-                android:id="@+id/left_drawer"
-                android:layout_width="260dp"
+                android:id="@+id/terminal_sessions_list"
+                android:layout_width="240dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="start"
-                android:choiceMode="singleChoice"
-                android:divider="@android:color/transparent"
-                android:dividerHeight="0dp"
-                android:descendantFocusability="blocksDescendants"
-                android:orientation="vertical"
-                android:background="@color/background_secondary">
-
-                <!-- Drawer Header -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:paddingHorizontal="12dp"
-                    android:background="@color/background_secondary">
-
-                    <ImageView
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:src="@mipmap/ic_launcher"
-                        android:contentDescription="@null"
-                        android:layout_marginEnd="12dp" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/application_name"
-                        android:textColor="@color/text_primary"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-
-                    <ImageButton
-                        android:id="@+id/settings_button"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:src="@drawable/ic_settings"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:contentDescription="@string/action_open_settings"
-                        app:tint="@color/text_secondary" />
-                </LinearLayout>
-
-                <!-- Sessions list header -->
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="32dp"
-                    android:text="@string/sessions_header"
-                    android:textColor="@color/text_muted"
-                    android:textSize="11sp"
-                    android:textStyle="bold"
-                    android:gravity="center_vertical"
-                    android:paddingHorizontal="16dp"
-                    android:textAllCaps="true" />
-
-                <ListView
-                    android:id="@+id/terminal_sessions_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:choiceMode="singleChoice"
-                    android:longClickable="true"
-                    android:divider="@color/border_color"
-                    android:dividerHeight="1dp"
-                    android:background="@color/background_dark" />
-
-                <LinearLayout
-                    style="?android:attr/buttonBarStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="44dp"
-                    android:orientation="horizontal"
-                    android:background="@color/background_tertiary"
-                    android:paddingHorizontal="8dp"
-                    android:paddingVertical="4dp">
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/new_session_button"
-                        style="?android:attr/buttonBarButtonStyle"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:text="@string/action_new_session"
-                        android:textColor="@color/accent_green"
-                        android:backgroundTint="@color/background_tertiary"
-                        app:cornerRadius="6dp"
-                        android:layout_marginEnd="4dp" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/toggle_keyboard_button"
-                        style="?android:attr/buttonBarButtonStyle"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:text="@string/action_toggle_soft_keyboard"
-                        android:textColor="@color/text_primary"
-                        android:backgroundTint="@color/background_tertiary"
-                        app:cornerRadius="6dp" />
-                </LinearLayout>
-            </LinearLayout>
+                android:background="#ff161b22"
+                android:orientation="vertical" />
 
         </androidx.drawerlayout.widget.DrawerLayout>
 
+        <!-- Extra keys ViewPager (hidden by default, shown when toolbar toggled) -->
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/terminal_toolbar_view_pager"
-            android:visibility="gone"
             android:layout_width="match_parent"
-            android:layout_height="37.5dp"
-            android:background="@color/background_tertiary"
-            android:layout_alignParentBottom="true" />
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
 
-    </RelativeLayout>
+    </LinearLayout>
 
-    <!-- ════════════════════════════════════ -->
-    <!-- BOTTOM QUICK KEY BAR                 -->
-    <!-- ════════════════════════════════════ -->
+    <!-- 🔷 Bottom bar — exactly matching ParrotTerminal (48dp, weightSum=10, horizontal) -->
     <LinearLayout
         android:id="@+id/bottom_key_bar"
-        style="@style/BottomKeyBar">
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:background="#ff0d1117"
+        android:weightSum="10"
+        android:paddingHorizontal="2dp">
 
-        <!-- Ctrl -->
+        <!-- ── Ctrl button (weight 1.2) ── -->
         <LinearLayout
-            android:id="@+id/bottom_key_ctrl"
-            style="@style/BottomKeyBar.Button"
-            android:gravity="center">
+            android:id="@+id/btn_ctrl"
+            android:layout_width="0dp"
+            android:layout_height="42dp"
+            android:layout_weight="1.2"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:background="@drawable/bottom_key_bg"
+            android:focusable="true"
+            android:clickable="true">
 
             <TextView
-                style="@style/BottomKeyBar.KeySymbol"
-                android:text="Ctrl"
-                android:textColor="@color/text_primary" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="8sp"
+                android:textStyle="bold"
+                android:textColor="#ff8b949e"
+                android:text="@string/key_ctrl" />
 
             <TextView
-                style="@style/BottomKeyBar.KeyLabel"
-                android:text="⌨" />
+                android:id="@+id/ctrl_indicator"
+                android:layout_width="6dp"
+                android:layout_height="6dp"
+                android:background="@drawable/bottom_key_indicator_off"
+                android:layout_marginTop="1dp" />
         </LinearLayout>
 
-        <View style="@style/BottomKeyBar.Divider" />
+        <!-- Divider -->
+        <View
+            android:layout_width="1dp"
+            android:layout_height="32dp"
+            android:background="#ff30363d"
+            android:layout_marginHorizontal="2dp" />
 
-        <!-- Tab -->
+        <!-- ── Tab button (weight 1.2) ── -->
         <LinearLayout
-            android:id="@+id/bottom_key_tab"
-            style="@style/BottomKeyBar.Button"
-            android:gravity="center">
+            android:id="@+id/btn_tab"
+            android:layout_width="0dp"
+            android:layout_height="42dp"
+            android:layout_weight="1.2"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:background="@drawable/bottom_key_bg"
+            android:focusable="true"
+            android:clickable="true">
 
             <TextView
-                style="@style/BottomKeyBar.KeySymbol"
-                android:text="⇥"
-                android:textColor="@color/accent_green" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textColor="#ff50fa7b"
+                android:text="⇥" />
 
             <TextView
-                style="@style/BottomKeyBar.KeyLabel"
-                android:text="@string/bottom_key_tab" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="7sp"
+                android:textColor="#ff8b949e"
+                android:text="@string/key_tab" />
         </LinearLayout>
 
-        <View style="@style/BottomKeyBar.Divider" />
+        <!-- Divider -->
+        <View
+            android:layout_width="1dp"
+            android:layout_height="32dp"
+            android:background="#ff30363d"
+            android:layout_marginHorizontal="2dp" />
 
-        <!-- Del -->
+        <!-- ── Middle section: Cut / Copy / Paste / Select (weight 3.4) ── -->
         <LinearLayout
-            android:id="@+id/bottom_key_del"
-            style="@style/BottomKeyBar.Button"
-            android:gravity="center">
+            android:layout_width="0dp"
+            android:layout_height="42dp"
+            android:layout_weight="3.4"
+            android:gravity="center"
+            android:orientation="horizontal">
 
-            <TextView
-                style="@style/BottomKeyBar.KeySymbol"
-                android:text="⌫"
-                android:textColor="@color/accent_red" />
+            <ImageButton
+                android:id="@+id/btn_cut_material"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="2dp"
+                android:background="@drawable/bottom_key_bg"
+                android:src="@drawable/ic_content_cut"
+                android:scaleType="centerInside"
+                android:contentDescription="@string/key_cut" />
 
-            <TextView
-                style="@style/BottomKeyBar.KeyLabel"
-                android:text="@string/bottom_key_del" />
+            <ImageButton
+                android:id="@+id/btn_copy_material"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="2dp"
+                android:background="@drawable/bottom_key_bg"
+                android:src="@drawable/ic_content_copy"
+                android:scaleType="centerInside"
+                android:contentDescription="@string/key_copy"
+                android:layout_marginHorizontal="1dp" />
+
+            <ImageButton
+                android:id="@+id/btn_paste_material"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="2dp"
+                android:background="@drawable/bottom_key_bg"
+                android:src="@drawable/ic_content_paste"
+                android:scaleType="centerInside"
+                android:contentDescription="@string/key_paste" />
+
+            <ImageButton
+                android:id="@+id/btn_select_material"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="2dp"
+                android:background="@drawable/bottom_key_bg"
+                android:src="@drawable/ic_select_all"
+                android:scaleType="centerInside"
+                android:contentDescription="@string/key_select" />
         </LinearLayout>
 
-        <View style="@style/BottomKeyBar.Divider" />
+        <!-- Divider -->
+        <View
+            android:layout_width="1dp"
+            android:layout_height="32dp"
+            android:background="#ff30363d"
+            android:layout_marginHorizontal="2dp" />
 
-        <!-- Cut -->
+        <!-- ── Del button (weight 1) ── -->
         <LinearLayout
-            android:id="@+id/bottom_key_cut"
-            style="@style/BottomKeyBar.Button"
-            android:gravity="center">
+            android:id="@+id/btn_del"
+            android:layout_width="0dp"
+            android:layout_height="42dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:background="@drawable/bottom_key_bg"
+            android:focusable="true"
+            android:clickable="true">
 
             <TextView
-                style="@style/BottomKeyBar.KeySymbol"
-                android:text="✂"
-                android:textColor="@color/accent_yellow" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="#ffff6b6b"
+                android:text="⌫" />
 
             <TextView
-                style="@style/BottomKeyBar.KeyLabel"
-                android:text="@string/bottom_key_cut" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="7sp"
+                android:textColor="#ff8b949e"
+                android:text="@string/key_del" />
         </LinearLayout>
 
-        <View style="@style/BottomKeyBar.Divider" />
+        <!-- Divider -->
+        <View
+            android:layout_width="1dp"
+            android:layout_height="32dp"
+            android:background="#ff30363d"
+            android:layout_marginHorizontal="2dp" />
 
-        <!-- Paste -->
+        <!-- ── Cut button (weight 1) ── -->
         <LinearLayout
-            android:id="@+id/bottom_key_paste"
-            style="@style/BottomKeyBar.Button"
-            android:gravity="center">
+            android:id="@+id/btn_cut"
+            android:layout_width="0dp"
+            android:layout_height="42dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:background="@drawable/bottom_key_bg"
+            android:focusable="true"
+            android:clickable="true">
 
             <TextView
-                style="@style/BottomKeyBar.KeySymbol"
-                android:text="📋"
-                android:textColor="@color/accent_green" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="#ffffd93d"
+                android:text="✂" />
 
             <TextView
-                style="@style/BottomKeyBar.KeyLabel"
-                android:text="@string/bottom_key_paste" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="7sp"
+                android:textColor="#ff8b949e"
+                android:text="@string/key_cut" />
         </LinearLayout>
 
-        <View style="@style/BottomKeyBar.Divider" />
+        <!-- Divider -->
+        <View
+            android:layout_width="1dp"
+            android:layout_height="32dp"
+            android:background="#ff30363d"
+            android:layout_marginHorizontal="2dp" />
 
-        <!-- Esc -->
+        <!-- ── Paste button (weight 1) ── -->
         <LinearLayout
-            android:id="@+id/bottom_key_esc"
-            style="@style/BottomKeyBar.Button"
-            android:gravity="center">
+            android:id="@+id/btn_paste"
+            android:layout_width="0dp"
+            android:layout_height="42dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:background="@drawable/bottom_key_bg"
+            android:focusable="true"
+            android:clickable="true">
 
             <TextView
-                style="@style/BottomKeyBar.KeySymbol"
-                android:text="Esc"
-                android:textColor="@color/accent_pink" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="#ff50fa7b"
+                android:text="📋" />
 
             <TextView
-                style="@style/BottomKeyBar.KeyLabel"
-                android:text="@string/bottom_key_esc" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="7sp"
+                android:textColor="#ff8b949e"
+                android:text="@string/key_paste" />
+        </LinearLayout>
+
+        <!-- Divider -->
+        <View
+            android:layout_width="1dp"
+            android:layout_height="32dp"
+            android:background="#ff30363d"
+            android:layout_marginHorizontal="2dp" />
+
+        <!-- ── Esc button (weight 1.2) ── -->
+        <LinearLayout
+            android:id="@+id/btn_esc"
+            android:layout_width="0dp"
+            android:layout_height="42dp"
+            android:layout_weight="1.2"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:background="@drawable/bottom_key_bg"
+            android:focusable="true"
+            android:clickable="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:textColor="#ffff79c6"
+                android:text="@string/key_esc" />
         </LinearLayout>
 
     </LinearLayout>
 
-    <!-- ════════════════════════════════════ -->
-    <!-- BOTTOM SPACE — keyboard handling     -->
-    <!-- ════════════════════════════════════ -->
+    <!-- Bottom padding for system nav bar -->
     <View
         android:id="@+id/activity_termux_bottom_space_view"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/transparent" />
+        android:layout_height="0dp" />
 
 </com.termux.app.terminal.TermuxActivityRootView>

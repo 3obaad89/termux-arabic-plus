@@ -18,6 +18,7 @@ import android.os.IBinder;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -52,6 +53,7 @@ import com.termux.app.terminal.io.TerminalToolbarViewPager;
 import com.termux.app.terminal.TermuxTerminalViewClient;
 import com.termux.shared.termux.extrakeys.ExtraKeysView;
 import com.termux.shared.termux.interact.TextInputDialogUtils;
+import com.termux.shared.interact.ShareUtils;
 import com.termux.shared.logger.Logger;
 import com.termux.shared.termux.TermuxUtils;
 import com.termux.shared.termux.settings.properties.TermuxAppSharedProperties;
@@ -254,6 +256,8 @@ public final class TermuxActivity extends AppCompatActivity implements ServiceCo
         setNewSessionButtonView();
 
         setToggleKeyboardView();
+
+        initBottomBar();
 
         // Request essential runtime permissions (notifications, alarms, etc.)
         requestEssentialPermissions();
@@ -475,7 +479,7 @@ public final class TermuxActivity extends AppCompatActivity implements ServiceCo
     }
 
     private void setMargins() {
-        RelativeLayout relativeLayout = findViewById(R.id.activity_termux_root_relative_layout);
+        View relativeLayout = findViewById(R.id.activity_termux_root_view);
         int marginHorizontal = mProperties.getTerminalMarginHorizontal();
         int marginVertical = mProperties.getTerminalMarginVertical();
         ViewUtils.setLayoutMarginsInDp(relativeLayout, marginHorizontal, marginVertical, marginHorizontal, marginVertical);
@@ -592,6 +596,84 @@ public final class TermuxActivity extends AppCompatActivity implements ServiceCo
                 R.string.action_new_session_failsafe, text -> mTermuxTerminalSessionActivityClient.addNewSession(true, text),
                 -1, null, null);
             return true;
+        });
+    }
+
+    private void initBottomBar() {
+        // ── Ctrl button: toggle Ctrl mode ──
+        findViewById(R.id.btn_ctrl).setOnClickListener(v -> {
+            mTerminalView.onKeyDown(KeyEvent.KEYCODE_CTRL_LEFT, new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_CTRL_LEFT));
+            mTerminalView.onKeyUp(KeyEvent.KEYCODE_CTRL_LEFT, new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_CTRL_LEFT));
+        });
+
+        // ── Tab button ──
+        findViewById(R.id.btn_tab).setOnClickListener(v -> {
+            mTerminalView.onKeyDown(KeyEvent.KEYCODE_TAB, new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_TAB));
+        });
+
+        // ── Cut (material icon) - copy selected then delete ──
+        findViewById(R.id.btn_cut_material).setOnClickListener(v -> {
+            if (mTerminalView != null) {
+                String selected = mTerminalView.getSelectedText();
+                if (selected != null && !selected.isEmpty()) {
+                    ShareUtils.copyTextToClipboard(TermuxActivity.this, selected);
+                    mTerminalView.onKeyDown(KeyEvent.KEYCODE_DEL, new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL));
+                }
+            }
+        });
+
+        // ── Copy (material icon) - copy selected text ──
+        findViewById(R.id.btn_copy_material).setOnClickListener(v -> {
+            if (mTerminalView != null) {
+                String selected = mTerminalView.getSelectedText();
+                if (selected != null && !selected.isEmpty())
+                    ShareUtils.copyTextToClipboard(TermuxActivity.this, selected);
+            }
+        });
+
+        // ── Paste (material icon) - paste from clipboard ──
+        findViewById(R.id.btn_paste_material).setOnClickListener(v -> {
+            if (mTermuxTerminalSessionActivityClient != null)
+                mTermuxTerminalSessionActivityClient.onPasteTextFromClipboard(null);
+        });
+
+        // ── Select button: copy selected text or stop selection ──
+        findViewById(R.id.btn_select_material).setOnClickListener(v -> {
+            if (mTerminalView != null) {
+                if (mTerminalView.isSelectingText()) {
+                    String selected = mTerminalView.getSelectedText();
+                    if (selected != null && !selected.isEmpty())
+                        ShareUtils.copyTextToClipboard(TermuxActivity.this, selected);
+                    mTerminalView.stopTextSelectionMode();
+                }
+            }
+        });
+
+        // ── Del button ──
+        findViewById(R.id.btn_del).setOnClickListener(v -> {
+            mTerminalView.onKeyDown(KeyEvent.KEYCODE_DEL, new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL));
+        });
+
+        // ── Cut (scissors) - copy+delete selection ──
+        findViewById(R.id.btn_cut).setOnClickListener(v -> {
+            if (mTerminalView != null) {
+                String selected = mTerminalView.getSelectedText();
+                if (selected != null && !selected.isEmpty()) {
+                    ShareUtils.copyTextToClipboard(TermuxActivity.this, selected);
+                    mTerminalView.stopTextSelectionMode();
+                }
+            }
+        });
+
+        // ── Paste (clipboard) - paste from clipboard ──
+        findViewById(R.id.btn_paste).setOnClickListener(v -> {
+            if (mTermuxTerminalSessionActivityClient != null)
+                mTermuxTerminalSessionActivityClient.onPasteTextFromClipboard(null);
+        });
+
+        // ── Esc button ──
+        findViewById(R.id.btn_esc).setOnClickListener(v -> {
+            mTerminalView.onKeyDown(KeyEvent.KEYCODE_ESCAPE, new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ESCAPE));
         });
     }
 
